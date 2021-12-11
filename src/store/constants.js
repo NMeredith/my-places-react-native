@@ -1,0 +1,1 @@
+export const REDUX_MODULE_NAME = 'main'

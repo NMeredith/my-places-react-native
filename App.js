@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, UIManager } from 'react-native';
+import { Provider } from 'react-redux';
+import { MainNavigator } from './src/navigation/Navigator';
+import buildStore from './src/store/store';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const fetchFonts = async () => {
+	await Font.loadAsync({
+		'comfortaa': require('./src/assets/fonts/Comfortaa-VariableFont_wght.ttf'),
+	})
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+if (
+	Platform.OS === "android" &&
+	UIManager.setLayoutAnimationEnabledExperimental
+) {
+	UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+const store = buildStore();
+
+
+export default function App() {
+	const [isFontsLoaded, setFontsLoaded] = React.useState(false);
+
+	if (!isFontsLoaded) {
+		return (
+			<AppLoading startAsync={fetchFonts}
+				onFinish={() => setFontsLoaded(true)}
+				onError={() => console.log('error')} />
+		)
+	}
+	return (
+		<Provider store={store}>
+			<NavigationContainer>
+				<MainNavigator />
+			</NavigationContainer>
+		</Provider>
+	);
+}
