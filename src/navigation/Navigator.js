@@ -2,8 +2,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Platform } from 'react-native';
 import { COLORS } from '../assets/Constants';
-import AddPlaceScreen from '../screens/AddPlaceScreen';
-import ListPlacesScreen from '../screens/ListPlacesScreen';
+import AddPlaceScreen, { AddPlaceOptions } from '../screens/AddPlaceScreen';
+import ListPlacesScreen, { ListPlacesOptions } from '../screens/ListPlacesScreen';
 import MapScreen from '../screens/MapScreen';
 import PlaceDetails from '../screens/PlaceDetails';
 
@@ -11,17 +11,18 @@ const basicNavigationOptions = {
     headerStyle: {
         backgroundColor: Platform.OS  === 'android' ? COLORS.main : 'white',
     },
-    headerTintColor: COLORS.main,
+    headerTintColor: Platform.OS  === 'android' ? COLORS.color3 : COLORS.main,
     headerTitleStyle: {
-      color: Platform.OS  === 'android' ? COLORS.textColorLight : COLORS.main,
+      color: Platform.OS  === 'android' ? COLORS.color3 : COLORS.main,
       fontFamily: 'comfortaa',
-      fontSize: 26
+      fontSize: 26,
+      marginBottom: 4,
     },
-    headerTitleAlign: 'center',
     headerBackTitleStyle: {
+      color: Platform.OS  === 'android' ? COLORS.color3 : COLORS.main,
       fontFamily: 'comfortaa',
       fontSize: 18
-    }
+    },
 }
   
 const Stack = createStackNavigator();
@@ -30,10 +31,17 @@ const Stack = createStackNavigator();
 export const MainNavigator = ({}) => {
     return (
         <Stack.Navigator screenOptions={basicNavigationOptions} >
-          <Stack.Screen name="list" component={ListPlacesScreen} options={{title: 'My places'}}/>
+          <Stack.Screen name="list" 
+                        component={ListPlacesScreen} 
+                        options={ListPlacesOptions} />
           <Stack.Screen name="map" component={MapScreen} />
-          <Stack.Screen name="details" component={PlaceDetails} />
-          <Stack.Screen name="add" component={AddPlaceScreen} />
+          <Stack.Screen name="details" 
+                        screenOptions={{presentation: 'modal'}}
+                        component={PlaceDetails} />
+          <Stack.Screen name="add" 
+                        screenOptions={{presentation: 'modal'}}
+                        component={AddPlaceScreen} 
+                        options={AddPlaceOptions}/>
         </Stack.Navigator>
     );
 }

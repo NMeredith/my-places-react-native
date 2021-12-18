@@ -1,14 +1,48 @@
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Text } from "react-native";
+import { FlatList, Platform, Text } from "react-native";
+import { useSelector } from "react-redux";
+import { COLORS } from '../assets/Constants';
+import CustomHeaderButton from "../components/CustomHeaderButton";
+import DisplayPlace from "../components/DisplayPlace";
 import ScreenView from "../components/ScreenView";
-
+import { REDUX_MODULE_NAME } from "../store/constants";
 
 const ListPlacesScreen = ({}) => {
+    const places = useSelector(state => state?.[REDUX_MODULE_NAME]?.places);
     return (
         <ScreenView>
-            <Text>ListPlacesScreen</Text>
+            {places.length === 0 ?
+                <Text>Your places list is empty</Text>
+                :
+                <FlatList data={places} 
+                          renderItem={DisplayPlace} 
+                          style={{flex: 1, width: '100%'}}
+                          keyExtractor={e => e.id}/>
+            }
         </ScreenView>
     )
+}
+
+const AddPlaceButton = (props) => (
+    <CustomHeaderButton {...props} title='Add place'>
+        <Ionicons name='add-circle-outline' size={30} 
+                  color={Platform.OS  === 'android' ? COLORS.color3 : COLORS.main}
+        />
+    </CustomHeaderButton>
+    
+)
+
+
+export const ListPlacesOptions = ({ route, navigation }) => {
+    return {
+        headerRight: (props) => (
+            <AddPlaceButton {...props} 
+                            onPress={() => navigation.navigate({name: 'add'})} />
+        ),
+        
+        headerTitle: 'My Places'
+  }
 }
 
 export default ListPlacesScreen;
