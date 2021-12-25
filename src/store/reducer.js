@@ -1,4 +1,4 @@
-import { ADD_PLACE_ACTION } from './constants';
+import { ADD_PLACE_ACTION, LOAD_PLACES } from './constants';
 
 const defaultState = {
     places: []
@@ -7,10 +7,12 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
     switch(action.type) {
+        case LOAD_PLACES:
+            return {...state, places: action.data};
 
         case ADD_PLACE_ACTION:
-            console.log(action.place)
             return {...state, places: [...state.places, action.place]}
+
         default:
             return state;
     }

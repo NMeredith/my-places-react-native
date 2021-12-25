@@ -1,15 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { FlatList, Platform, Text } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from '../assets/Constants';
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import DisplayPlace from "../components/DisplayPlace";
 import ScreenView from "../components/ScreenView";
+import { retrievePlaces } from '../store/actions';
 import { REDUX_MODULE_NAME } from "../store/constants";
 
 const ListPlacesScreen = ({}) => {
     const places = useSelector(state => state?.[REDUX_MODULE_NAME]?.places);
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+		dispatch(retrievePlaces())
+	}, []);
+
     return (
         <ScreenView>
             {places.length === 0 ?
