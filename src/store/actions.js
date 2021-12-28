@@ -10,12 +10,12 @@ export const retrievePlaces = () => {
         const result = elements?.rows?._array ?? [];
         dispatch({
             type: LOAD_PLACES,
-            data: result.map(e => new Place(e.id, e?.title, e?.imageUri))
+            data: result.map(e => new Place(e.id, e?.title, e?.imageUri, e?.lat, e?.lng))
         })
     }
 }
 
-export const addPlace = ({name, image}) => {
+export const addPlace = ({name, image, lat, lng}) => {
     return async dispatch => {
         const fileName = image.split('/').pop();
         const newPath = `${FileSystem.documentDirectory}${fileName}`;
@@ -28,10 +28,11 @@ export const addPlace = ({name, image}) => {
         catch(e) {
             console.log(e);
         }
-        const result = await addPlacetoSql(name, newPath)
+        const result = await addPlacetoSql(name, newPath, lat, lng);
+        console.log(result)
         dispatch({
             type: ADD_PLACE_ACTION,
-            place: new Place(moment().unix(), name, newPath)
+            place: new Place(moment().unix(), name, newPath, lat, lng)
         });
     }
 }

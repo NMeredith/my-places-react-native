@@ -8,13 +8,21 @@ import globalStyles from '../assets/styles';
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import FontText from '../components/FontText';
 import ImagePicker from '../components/ImagePicker';
+import LocationPicker from '../components/LocationPicker';
 import { addPlace } from '../store/actions';
 
 const AddPlaceScreen = ({navigation}) => {
     const [title, setTitle] = React.useState('');
     const [image, applyImage] = React.useState(null);
+    const [location , applyLocation] = React.useState(null);
+    console.log(location)
     React.useEffect(() => {
-        navigation.setParams({name:title, image})
+        navigation.setParams({
+            name:title,
+            image,
+            lat: location?.coords?.latitude,
+            lng: location?.coords?.longitude,
+        })
     }, [title]);
 
     return (
@@ -34,7 +42,8 @@ const AddPlaceScreen = ({navigation}) => {
                                 placeholder="Enter your title"/>
                 </View>
            </View>
-           <ImagePicker applyImage={applyImage}/>
+           <ImagePicker applyImage={applyImage} />
+           <LocationPicker applyLocation={applyLocation} />
         </ScrollView>
     )
 }

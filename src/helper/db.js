@@ -31,7 +31,7 @@ export const initDb = () => {
     );
 };
 
-export const addPlacetoSql = (title, imageUrl) => {
+export const addPlacetoSql = (title, imageUrl, lat, lng) => {
     return runAsPromise(`
         insert into places (
         title, 
@@ -40,7 +40,7 @@ export const addPlacetoSql = (title, imageUrl) => {
         lat,
         lng
         ) values(?, ?, ?, ?, ?);`,
-        [title, imageUrl, 'empty', 32.12, 50.34]
+        [title, imageUrl, 'empty', lat, lng]
     );
 };
 

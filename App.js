@@ -4,6 +4,7 @@ import * as Font from 'expo-font';
 import React from 'react';
 import { Platform, UIManager } from 'react-native';
 import { Provider } from 'react-redux';
+import { initDb } from './src/helper/db';
 import { MainNavigator } from './src/navigation/Navigator';
 import buildStore from './src/store/store';
 
@@ -22,10 +23,12 @@ if (
 
 const store = buildStore();
 
+initDb().then(() => console.log('DB initialized')).catch(e => console.error(`Failed to initialize DB: ${e}`));
+
 
 export default function App() {
 	const [isFontsLoaded, setFontsLoaded] = React.useState(false);
-
+	
 	if (!isFontsLoaded) {
 		return (
 			<AppLoading startAsync={fetchFonts}
