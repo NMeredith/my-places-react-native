@@ -1,14 +1,26 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import React from "react";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, StyleSheet, View } from "react-native";
 import { COLORS } from '../assets/Constants';
 import FontText from './FontText';
+import LocationPreview from './LocationPreview';
 
 const LocationPicker = ({applyLocation}) => {
+    const navigation = useNavigation();
+    const route = useRoute();
     const [status, requestPermission] = Location.useForegroundPermissions()
 
     const [location, setLocation] = React.useState(null);
-    const onPress = async () => {
+
+    React.useEffect(() => {
+        if (route?.params?.location) {
+            setLocation(route?.params?.location);
+            applyLocation(route?.params?.location)
+        }
+    }, [route?.params?.location]);
+
+    const getLocation = async () => {
         if (!status?.granted) {
             const result = await requestPermission();
             if (!result?.granted) Alert.alert(
@@ -22,22 +34,26 @@ const LocationPicker = ({applyLocation}) => {
         }
         else {
             let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-            applyLocation(location)
+            setLocation(location?.coords);
+            applyLocation(location?.coords)
         }
     }
+
+    const getOnMap = () => {
+        navigation.navigate('map')
+    }
+
     return (
         <View style={styles.mainContainer}>
-            {location ? 
-                <Text>Location selected</Text>
-                :
-                <View style={styles.previewContainer}>
-                    <FontText>No location selected</FontText>
-                </View>
-            }
-            
-            <Button title={'Get location'} onPress={onPress} style={styles.button}
-                    color={COLORS.main}/>
+            <LocationPreview style={styles.previewContainer} location={location} onPress={getOnMap}>
+                <FontText>No location selected</FontText>
+            </LocationPreview>
+            <View style={styles.buttonsContainer}>
+                <Button title={'Get location'} onPress={getLocation} style={styles.button}
+                        color={COLORS.main}/>
+                <Button title={'Select on the map'} onPress={getOnMap} style={styles.button}
+                        color={COLORS.main}/>
+            </View>
         </View>
     )
 }
@@ -66,6 +82,11 @@ const styles = StyleSheet.create({
         margin: 10,
         height: 200,
         width: '100%'
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignSelf: 'stretch'
     }
 });
 

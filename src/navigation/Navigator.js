@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { COLORS } from '../assets/Constants';
 import AddPlaceScreen, { AddPlaceOptions } from '../screens/AddPlaceScreen';
 import ListPlacesScreen, { ListPlacesOptions } from '../screens/ListPlacesScreen';
-import MapScreen from '../screens/MapScreen';
+import MapScreen, { MapOptions } from '../screens/MapScreen';
 import PlaceDetails from '../screens/PlaceDetails';
 
 const basicNavigationOptions = {
@@ -34,7 +34,10 @@ export const MainNavigator = ({}) => {
           <Stack.Screen name="list" 
                         component={ListPlacesScreen} 
                         options={ListPlacesOptions} />
-          <Stack.Screen name="map" component={MapScreen} />
+          <Stack.Screen name="map" 
+		  				screenOptions={{presentation: 'modal'}}
+						options={MapOptions}
+                        component={MapScreen} />
           <Stack.Screen name="details" 
                         screenOptions={{presentation: 'modal'}}
                         component={PlaceDetails} />

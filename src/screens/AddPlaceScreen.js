@@ -15,15 +15,15 @@ const AddPlaceScreen = ({navigation}) => {
     const [title, setTitle] = React.useState('');
     const [image, applyImage] = React.useState(null);
     const [location , applyLocation] = React.useState(null);
-    console.log(location)
     React.useEffect(() => {
+        console.log(location)
         navigation.setParams({
             name:title,
             image,
-            lat: location?.coords?.latitude,
-            lng: location?.coords?.longitude,
+            lat: location?.latitude,
+            lng: location?.longitude,
         })
-    }, [title]);
+    }, [title, location]);
 
     return (
         <ScrollView style={globalStyles.margin8}>
