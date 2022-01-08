@@ -49,15 +49,23 @@ const AddPlaceScreen = ({navigation}) => {
 
 const SavePlaceButton = ({onPress, value, ...props}) => {
     const dispatch = useDispatch();
+
+    const isDisabled = React.useMemo(() => {
+        return [value?.name, value?.image, value?.lat, value?.lng].some(e => !e);
+    }, [value]);
+
     const press = () => {
-        dispatch(addPlace(value));
-        setTimeout(() => onPress(), 150)
+        if (!isDisabled){
+            dispatch(addPlace(value));
+            setTimeout(() => onPress(), 150)
+        }
     }
+    const color = isDisabled ? 'lightgray': (Platform.OS  === 'android' ? COLORS.color3 : COLORS.main)
     return (
-        <CustomHeaderButton {...props} title='Save place' onPress={press}>
+        <CustomHeaderButton {...props} title='Save place' onPress={press} disabled={isDisabled}>
             <Ionicons name='save-outline' 
                       size={30} 
-                      color={Platform.OS  === 'android' ? COLORS.color3 : COLORS.main}/>
+                      color={color}/>
         </CustomHeaderButton>
     )
 }

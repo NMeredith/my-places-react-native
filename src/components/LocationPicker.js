@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import React from "react";
-import { Alert, Button, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Alert, Button, StyleSheet, View } from "react-native";
 import { COLORS } from '../assets/Constants';
 import FontText from './FontText';
 import LocationPreview from './LocationPreview';
@@ -10,6 +10,7 @@ const LocationPicker = ({applyLocation}) => {
     const navigation = useNavigation();
     const route = useRoute();
     const [status, requestPermission] = Location.useForegroundPermissions()
+    const [waiting, setWaiting] = React.useState(false);
 
     const [location, setLocation] = React.useState(null);
 
@@ -33,7 +34,9 @@ const LocationPicker = ({applyLocation}) => {
               );
         }
         else {
+            setWaiting(true);
             let location = await Location.getCurrentPositionAsync({});
+            setWaiting(false);
             setLocation(location?.coords);
             applyLocation(location?.coords)
         }
@@ -46,12 +49,21 @@ const LocationPicker = ({applyLocation}) => {
     return (
         <View style={styles.mainContainer}>
             <LocationPreview style={styles.previewContainer} location={location} onPress={getOnMap}>
-                <FontText>No location selected</FontText>
+                {waiting ?
+                    <ActivityIndicator size="small" color={COLORS.main}/> : 
+                    <FontText>No location selected</FontText>
+                }
             </LocationPreview>
             <View style={styles.buttonsContainer}>
-                <Button title={'Get location'} onPress={getLocation} style={styles.button}
+                <Button title={'Get location'} 
+                        onPress={getLocation} 
+                        style={styles.button} 
+                        disabled={waiting}
                         color={COLORS.main}/>
-                <Button title={'Select on the map'} onPress={getOnMap} style={styles.button}
+                <Button title={'Select on the map'} 
+                        onPress={getOnMap} 
+                        style={styles.button}
+                        disabled={waiting}
                         color={COLORS.main}/>
             </View>
         </View>
