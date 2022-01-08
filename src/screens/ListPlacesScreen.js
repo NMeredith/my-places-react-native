@@ -23,7 +23,7 @@ const ListPlacesScreen = ({}) => {
                 <Text>Your places list is empty</Text>
                 :
                 <FlatList data={places} 
-                          renderItem={DisplayPlace} 
+                          renderItem={(props) => <DisplayPlace {...props}/>} 
                           style={{flex: 1, width: '100%'}}
                           keyExtractor={e => e.id}/>
             }

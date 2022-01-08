@@ -16,7 +16,6 @@ const AddPlaceScreen = ({navigation}) => {
     const [image, applyImage] = React.useState(null);
     const [location , applyLocation] = React.useState(null);
     React.useEffect(() => {
-        console.log(location)
         navigation.setParams({
             name:title,
             image,

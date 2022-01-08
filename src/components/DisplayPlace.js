@@ -1,19 +1,23 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../assets/Constants";
 import FontText from './FontText';
 
 const BG_COLORS = [COLORS.color1, COLORS.color3, COLORS.accent, COLORS.color2]
 const DisplayPlace = ({ item, index, separators }) => {
-    console.log(item)
+    const navigation = useNavigation();
+    const onPress = () => navigation.navigate('details', {id: item.id, title: item.title});
     const colorIndex = index % BG_COLORS.length;
     return( 
-        <View style={{...styles.container, backgroundColor: BG_COLORS?.[colorIndex] ?? BG_COLORS[0]}}>
+        <TouchableOpacity style={{...styles.container, backgroundColor: BG_COLORS?.[colorIndex] ?? BG_COLORS[0]}} 
+                          onPress={onPress}>
             <Image source={{uri: item.imageUri}} style={styles.image}/>
             <View style={styles.textContainer}>
                 <FontText style={styles.textStyle}>{item.title}</FontText>
+                <FontText style={styles.textStyleSmall}>{item.address}</FontText>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -33,6 +37,7 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         flex: 1,
+        flexDirection: 'column',
         paddingHorizontal: 10
     },
     textStyle: {
@@ -40,6 +45,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: COLORS.textColorDark,
     },
+    textStyleSmall: {
+        fontSize: 14,
+        fontWeight: '300',
+        color: COLORS.textColorDark,
+    }, 
     image: {
         margin: 5,
         height: 70,

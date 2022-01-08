@@ -31,7 +31,7 @@ export const initDb = () => {
     );
 };
 
-export const addPlacetoSql = (title, imageUrl, lat, lng) => {
+export const addPlacetoSql = (title, imageUrl, lat, lng, address) => {
     return runAsPromise(`
         insert into places (
         title, 
@@ -40,7 +40,7 @@ export const addPlacetoSql = (title, imageUrl, lat, lng) => {
         lat,
         lng
         ) values(?, ?, ?, ?, ?);`,
-        [title, imageUrl, 'empty', lat, lng]
+        [title, imageUrl, address, lat, lng]
     );
 };
 
@@ -49,3 +49,9 @@ export const getPlacesFromSql = () => {
         `select * from places`,[]
     );
 };
+
+export const deletePlaceFromSql = (id) => {
+    return runAsPromise(
+        `delete from places where id = ?;`,[id]
+    );
+}

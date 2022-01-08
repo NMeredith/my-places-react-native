@@ -5,7 +5,7 @@ import { COLORS } from '../assets/Constants';
 import AddPlaceScreen, { AddPlaceOptions } from '../screens/AddPlaceScreen';
 import ListPlacesScreen, { ListPlacesOptions } from '../screens/ListPlacesScreen';
 import MapScreen, { MapOptions } from '../screens/MapScreen';
-import PlaceDetails from '../screens/PlaceDetails';
+import PlaceDetails, { DetailsOptions } from '../screens/PlaceDetails';
 
 const basicNavigationOptions = {
     headerStyle: {
@@ -39,6 +39,7 @@ export const MainNavigator = ({}) => {
 						options={MapOptions}
                         component={MapScreen} />
           <Stack.Screen name="details" 
+		  				options={DetailsOptions}
                         screenOptions={{presentation: 'modal'}}
                         component={PlaceDetails} />
           <Stack.Screen name="add" 

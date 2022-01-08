@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 const ScreenView = ({children, style={}}) => {
     return (
-        <View style={{...styles.main, style}}>
+        <View style={{...styles.main, ...style}}>
             {children}
         </View>
     )

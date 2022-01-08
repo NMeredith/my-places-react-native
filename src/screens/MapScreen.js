@@ -6,15 +6,12 @@ import { COLORS } from "../assets/Constants";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import ScreenView from "../components/ScreenView";
 
-const MapScreen = ({navigation}) => {
-
-    const [latLong, setLangLong] = React.useState({
-        latitude: 37.78825,
-        longitude: -122.4324,
-    })
+const MapScreen = ({navigation, route}) => {
+    const {readOnly, location, title='Picked location'} = route.params ?? {};
+    const [latLong, setLangLong] = React.useState(location);
 
     const onPick = ({ nativeEvent}) => {
-        setLangLong(nativeEvent.coordinate);
+        if (!readOnly) setLangLong(nativeEvent.coordinate);
     }
 
     React.useEffect(() => {
@@ -23,7 +20,7 @@ const MapScreen = ({navigation}) => {
 
     const region = {
         latitude: latLong?.latitude ?? 37.78825,
-        longitude: latLong.longitude ?? -122.4324,
+        longitude: latLong?.longitude ?? -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }
@@ -31,10 +28,12 @@ const MapScreen = ({navigation}) => {
     return (
         <ScreenView>
             <MapView style={styles.map} initialRegion={region} onPress={onPick}>
-                <Marker
-                    coordinate={latLong}
-                    title={'Picked location'}
-                />
+                {latLong &&
+                    <Marker
+                        coordinate={latLong}
+                        title={title}
+                    />
+                }
             </MapView>
         </ScreenView>
     )
@@ -57,12 +56,20 @@ const ReturnLocationButton = (props) => {
 
 
 export const MapOptions = ({ route, navigation }) => {
+    console.log(route)
+    const {readOnly, title='Pick a location'} = route?.params ?? {};
     return {
-        headerRight: (props) => (
-            <ReturnLocationButton {...props} 
-                                  value={route?.params}/>
+        ...(
+            readOnly ? 
+            {} : 
+            {headerRight: (props) => (
+                <ReturnLocationButton 
+                    {...props} 
+                    value={route?.params}
+                />
+            )}
         ),
-        headerTitle: 'Pick a location'
+        headerTitle: title
   }
 }
 

@@ -12,6 +12,7 @@ const LocationPreview = ({children, style, location, onPress}) => {
     },${
         location?.longitude
     }&key=${KEYS.maps}`;
+
     return (
         <TouchableOpacity style={{...styles.container, style}} onPress={onPress}>
             {location ?
