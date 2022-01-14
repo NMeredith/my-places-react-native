@@ -32,14 +32,13 @@ const LocationPicker = ({applyLocation}) => {
                   { text: "OK", onPress: () => console.log("OK Pressed") }
                 ]
               );
+              return;
         }
-        else {
-            setWaiting(true);
-            let location = await Location.getCurrentPositionAsync({});
-            setWaiting(false);
-            setLocation(location?.coords);
-            applyLocation(location?.coords)
-        }
+        setWaiting(true);
+        let location = await Location.getCurrentPositionAsync({});
+        setWaiting(false);
+        setLocation(location?.coords);
+        applyLocation(location?.coords)
     }
 
     const getOnMap = () => {
