@@ -22,7 +22,7 @@ const AddPlaceScreen = ({navigation}) => {
             lat: location?.latitude,
             lng: location?.longitude,
         })
-    }, [title, location]);
+    }, [title, location, image]);
 
     return (
         <ScrollView style={globalStyles.margin8}>
@@ -51,6 +51,7 @@ const SavePlaceButton = ({onPress, value, ...props}) => {
     const dispatch = useDispatch();
 
     const isDisabled = React.useMemo(() => {
+        console.log(value)
         return [value?.name, value?.image, value?.lat, value?.lng].some(e => !e);
     }, [value]);
 
