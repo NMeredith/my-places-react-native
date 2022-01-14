@@ -1,4 +1,4 @@
-package com.myplacesreactnative;
+package my.places;
 
 import android.os.Bundle;
 
