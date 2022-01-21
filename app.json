@@ -5,7 +5,23 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "platforms": ["ios", "android"],
+    "githubUrl": "https://github.com/alonabas/my-places-react-native",
+    "userInterfaceStyle": "automatic",
+    "primaryColor": "#659DBD",
+    "icon": "src/assets/icon.png",
+    "backgroundColor": "#FBEECE",
+    "splash": {
+      "image": "src/assets/splash.png",
+      "resizeMode": "cover"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "src/assets/icon.png",
+        "backgroundColor": "#FBEECE"
+      }
+    }
   },
   "name": "my-places-react-native"
 }
