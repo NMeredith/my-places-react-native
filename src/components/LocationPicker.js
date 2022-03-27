@@ -89,11 +89,6 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         
     },
-    image: {
-        margin: 10,
-        height: 200,
-        width: '100%'
-    },
     buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',

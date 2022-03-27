@@ -22,7 +22,6 @@ export const initDb = () => {
         create table if not exists places (
         id integer primary key not null, 
         title text not null, 
-        imageUri text not null,
         address text not null,
         lat real not null,
         lng real not null
@@ -31,16 +30,15 @@ export const initDb = () => {
     );
 };
 
-export const addPlacetoSql = (title, imageUrl, lat, lng, address) => {
+export const addPlacetoSql = (title, lat, lng, address) => {
     return runAsPromise(`
         insert into places (
         title, 
-        imageUri,
         address,
         lat,
         lng
         ) values(?, ?, ?, ?, ?);`,
-        [title, imageUrl, address, lat, lng]
+        [title, address, lat, lng]
     );
 };
 
