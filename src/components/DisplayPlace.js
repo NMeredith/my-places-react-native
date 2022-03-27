@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../assets/Constants";
 import FontText from './FontText';
 
@@ -12,7 +12,6 @@ const DisplayPlace = ({ item, index, separators }) => {
     return( 
         <TouchableOpacity style={{...styles.container, backgroundColor: BG_COLORS?.[colorIndex] ?? BG_COLORS[0]}} 
                           onPress={onPress}>
-            <Image source={{uri: item.imageUri}} style={styles.image}/>
             <View style={styles.textContainer}>
                 <FontText style={styles.textStyle}>{item.title}</FontText>
                 <FontText style={styles.textStyleSmall}>{item.address}</FontText>
@@ -50,15 +49,6 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         color: COLORS.textColorDark,
     }, 
-    image: {
-        margin: 5,
-        height: 70,
-        flex: 0.5,
-        // width: 50,
-        // width: '100%'
-        // width: '30%',
-        // height: 'auto'
-    }
 });
 
 export default DisplayPlace;

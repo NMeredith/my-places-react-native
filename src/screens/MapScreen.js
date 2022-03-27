@@ -7,7 +7,7 @@ import CustomHeaderButton from "../components/CustomHeaderButton";
 import ScreenView from "../components/ScreenView";
 
 const MapScreen = ({navigation, route}) => {
-    const {readOnly, location, title='Picked location'} = route.params ?? {};
+    const {readOnly, location, title='Ici'} = route.params ?? {};
     const [latLong, setLangLong] = React.useState(location);
 
     const onPick = ({ nativeEvent}) => {
@@ -19,8 +19,8 @@ const MapScreen = ({navigation, route}) => {
     }, [latLong]);
 
     const region = {
-        latitude: latLong?.latitude ?? 37.78825,
-        longitude: latLong?.longitude ?? -122.4324,
+        latitude: latLong?.latitude ?? 49.10117,
+        longitude: latLong?.longitude ?? 6.14133,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }
@@ -44,7 +44,7 @@ const ReturnLocationButton = (props) => {
     const navigation = useNavigation();
     const press = () => navigation.navigate('add', {location: value})
     return (
-        <CustomHeaderButton {...props} title='Add place' 
+        <CustomHeaderButton {...props} title='Ajouter Lieu' 
                             onPress={press} >
             <Text style={styles.buttonHeader}>
                 Save
@@ -57,7 +57,7 @@ const ReturnLocationButton = (props) => {
 
 export const MapOptions = ({ route, navigation }) => {
     console.log(route)
-    const {readOnly, title='Pick a location'} = route?.params ?? {};
+    const {readOnly, title='Choisir un lieu'} = route?.params ?? {};
     return {
         ...(
             readOnly ? 

@@ -7,22 +7,19 @@ import { COLORS } from '../assets/Constants';
 import globalStyles from '../assets/styles';
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import FontText from '../components/FontText';
-import ImagePicker from '../components/ImagePicker';
 import LocationPicker from '../components/LocationPicker';
 import { addPlace } from '../store/actions';
 
 const AddPlaceScreen = ({navigation}) => {
     const [title, setTitle] = React.useState('');
-    const [image, applyImage] = React.useState(null);
     const [location , applyLocation] = React.useState(null);
     React.useEffect(() => {
         navigation.setParams({
             name:title,
-            image,
             lat: location?.latitude,
             lng: location?.longitude,
         })
-    }, [title, location, image]);
+    }, [title, location]);
 
     return (
         <ScrollView style={globalStyles.margin8}>
@@ -38,10 +35,9 @@ const AddPlaceScreen = ({navigation}) => {
                                     ...globalStyles.paddingHorizontal5
                                 }}
                                 returnKeyType={'next'}
-                                placeholder="Enter your title"/>
+                                placeholder="Enter title"/>
                 </View>
            </View>
-           <ImagePicker applyImage={applyImage} />
            <LocationPicker applyLocation={applyLocation} />
         </ScrollView>
     )
@@ -52,7 +48,7 @@ const SavePlaceButton = ({onPress, value, ...props}) => {
 
     const isDisabled = React.useMemo(() => {
         console.log(value)
-        return [value?.name, value?.image, value?.lat, value?.lng].some(e => !e);
+        return [value?.name, value?.lat, value?.lng].some(e => !e);
     }, [value]);
 
     const press = () => {
@@ -78,7 +74,7 @@ export const AddPlaceOptions = ({ route, navigation }) => {
                              value={route?.params}
                              onPress={() => navigation.navigate({name: 'list'})} />
         ),
-        headerTitle: 'Add new place'
+        headerTitle: 'Ajouter un lieu'
   }
 }
 

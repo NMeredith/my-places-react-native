@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { COLORS } from '../assets/Constants';
 import CustomHeaderButton from '../components/CustomHeaderButton';
@@ -24,7 +24,6 @@ const PlaceDetails = ({navigation, route}) => {
     }
     return (
         <ScreenView style={styles.page}>
-            <Image source={{uri: elem.imageUri}} style={styles.image}/>
             <View style={styles.locationContainer}>
                 <FontText>{elem.address}</FontText>
                 <LocationPreview 
@@ -77,14 +76,6 @@ const styles = StyleSheet.create({
         margin: 10,
         width: 100,
         justifyContent: 'center'
-    },
-    image: {
-        margin: 10,
-        height: 200,
-        width: '100%',
-        borderWidth: 2,
-        borderRadius: 5,
-        borderColor: COLORS.main
     },
     locationContainer: {
         elevation: 20,

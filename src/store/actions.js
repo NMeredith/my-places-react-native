@@ -10,19 +10,13 @@ export const retrievePlaces = () => {
         const result = elements?.rows?._array ?? [];
         dispatch({
             type: LOAD_PLACES,
-            data: result.map(e => new Place(e.id, e?.title, e?.imageUri, e?.lat, e?.lng, e?.address))
+            data: result.map(e => new Place(e.id, e?.title, e?.lat, e?.lng, e?.address))
         })
     }
 }
 
-export const remove = (id, imageUri) => {
+export const remove = (id) => {
     return async dispatch => {
-        try {
-            await FileSystem.deleteAsync(imageUri);
-        }
-        catch(e) {
-            console.log(e);
-        }
         const result = await deletePlaceFromSql(id);
         dispatch({
             type: DELETE_PLACE_ACTION,
@@ -31,7 +25,7 @@ export const remove = (id, imageUri) => {
     }
 }
 
-export const addPlace = ({name, image, lat, lng}) => {
+export const addPlace = ({name, lat, lng}) => {
     return async dispatch => {
         const addressResult = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${KEYS.maps}`);
         if (!addressResult.ok) {
@@ -46,17 +40,6 @@ export const addPlace = ({name, image, lat, lng}) => {
         catch(e) {
             console.debug(e);
             throw 'Failed to retrieve the address'; 
-        }
-        const fileName = image.split('/').pop();
-        const newPath = `${FileSystem.documentDirectory}${fileName}`;
-        try {
-            await FileSystem.moveAsync({
-                from: image,
-                to: newPath
-            });
-        }
-        catch(e) {
-            console.log(e);
         }
         const result = await addPlacetoSql(name, newPath, lat, lng, address);
         dispatch({
